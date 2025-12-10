@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.List;
 
 import com.example.gmailapi.service.GmailService;
 
@@ -46,5 +47,22 @@ public class GmailController {
 
         return "email-count";   // JSP name
     }
+
+
+    @GetMapping("/subjects")
+@ResponseBody
+public Map<String, Object> getSubjects(
+        @RequestParam String loginEmail,
+        @RequestParam String sender
+) throws Exception {
+
+    List<String> subjects = service.getEmailSubjects(loginEmail, sender);
+
+    return Map.of(
+            "email", loginEmail,
+            "sender", sender,
+            "subjects", subjects
+    );
+}
     
 }
